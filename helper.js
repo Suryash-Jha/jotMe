@@ -54,7 +54,7 @@ const addTask = (task) => {
     };
     data.Tasks.push(taskBody);
     fs.writeFileSync(root_local_path, JSON.stringify(data, null, 2), 'utf-8');
-    console.log(chalk.blue("Task Inserted Successfully!"));
+    console.log(chalk.yellow("Task Inserted Successfully!"));
 
   } catch (err) {
     console.log('Error while adding task', err);
