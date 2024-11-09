@@ -1,0 +1,26 @@
+{
+  "Notes": [
+    {
+      "note": "Yargs option is used to add flags in command",
+      "created_at": "2024-11-09T12:01:12.638Z",
+      "id": "e7690d29-ae1d-43a5-903d-930a64223499"
+    },
+    {
+      "note": "npx link command is used to setup the package locally as an executable",
+      "created_at": "2024-11-09T12:02:03.581Z",
+      "id": "9aa2c33d-48df-4ea3-b6a8-97d5f47c6360"
+    }
+  ],
+  "Tasks": [
+    {
+      "task": "Addding Notes and Task functionality done",
+      "created_at": "2024-11-09T12:02:42.330Z",
+      "id": "086e2fe1-ad0e-4e57-8e98-2ee6d0df5f27"
+    },
+    {
+      "task": "Addding Notes and Task functionality done",
+      "created_at": "2024-11-09T12:08:23.532Z",
+      "id": "06762fd2-604f-470f-9f8c-0182ec287c39"
+    }
+  ]
+}

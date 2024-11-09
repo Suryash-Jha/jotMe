@@ -3,9 +3,16 @@
   "version": "1.0.0",
   "description": "A CLI based notes and task manager",
   "main": "index.js",
+  "bin": {
+    "jotme": "./main.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Suryash-Jha",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "uuid": "^11.0.2",
+    "yargs": "^17.7.2"
+  }
 }
