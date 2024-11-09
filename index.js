@@ -1,7 +1,18 @@
 #!/usr/bin/env node
 
 const yargs = require('yargs');
-const {addNote, addTask, commitToGit} = require('./helper.js')
+const figlet = require('figlet');
+const { addNote, addTask, commitToGit } = require('./helper.js');
+
+figlet('JOT - ME ✏️', async (err, data) => {
+  // Dynamic import of gradient-string!!! without using import statement at the top
+  const gradient = await import('gradient-string'); 
+
+  if (err) {
+    console.error('Error generating ASCII art');
+    return;
+  }
+  console.log(gradient.pastel.multiline(data)); 
 
 yargs
   .scriptName('jotme')
@@ -29,8 +40,7 @@ yargs
       addTask(argv.t);
     }
   })
-
-//   // Command to list all notes and tasks
+  //   // Command to list all notes and tasks
 //   .command('listAll', 'List all notes and tasks', () => {
 //     if (notes.length === 0 && tasks.length === 0) {
 //       console.log('No notes or tasks available.');
@@ -84,6 +94,11 @@ yargs
 //     }
 //   })
 
-  // Show help if no command is provided
-  .help()
-  .argv;
+
+
+    // Show help if no command is provided
+    .help()
+    .argv;
+
+})
+

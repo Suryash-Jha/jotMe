@@ -19,6 +19,11 @@
       "note": "suryash test",
       "created_at": "2024-11-09T17:09:13.873Z",
       "id": "b74c4731-2dde-4567-84ae-9762dde57618"
+    },
+    {
+      "note": "testx",
+      "created_at": "2024-11-09T17:56:40.841Z",
+      "id": "567b3104-7b90-4429-9937-955a88eeed27"
     }
   ],
   "Tasks": [
@@ -41,6 +46,11 @@
       "task": "conflict handled",
       "created_at": "2024-11-09T12:15:53.920Z",
       "id": "3f1eac4c-e0f6-489b-8ee1-2be9efe22ef6"
+    },
+    {
+      "task": "Gitignore the docu file and made the package npx executable",
+      "created_at": "2024-11-09T17:19:40.065Z",
+      "id": "2646a2a5-6c9d-49ef-b83b-72e6642fd0bf"
     }
   ]
 }

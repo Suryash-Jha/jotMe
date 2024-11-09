@@ -1,6 +1,6 @@
 {
   "name": "jotme",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A CLI based notes and task manager",
   "main": "index.js",
   "bin": {
@@ -12,6 +12,8 @@
   "author": "Suryash-Jha",
   "license": "ISC",
   "dependencies": {
+    "figlet": "^1.8.0",
+    "gradient-string": "^3.0.0",
     "uuid": "^11.0.2",
     "yargs": "^17.7.2"
   }
