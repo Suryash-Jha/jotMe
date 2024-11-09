@@ -132,3 +132,7 @@ dist
 
 # personal
 ./docu-local
+docu-local.*
+*.json
+docu-local.json
+
