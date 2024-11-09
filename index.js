@@ -1,10 +1,7 @@
 #!/usr/bin/env node
 
 const yargs = require('yargs');
-const {addNote, addTask} = require('./helper.js')
-// In-memory store for notes and tasks
-let notes = [];
-let tasks = [];
+const {addNote, addTask, commitToGit} = require('./helper.js')
 
 yargs
   .scriptName('jotme')
@@ -28,6 +25,7 @@ yargs
     
     }
     if (argv.t) {
+      commitToGit(argv.t)
       addTask(argv.t);
     }
   })
