@@ -4,6 +4,7 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import figlet from 'figlet';
 import { addNote, addTask, commitToGit } from './helper.js';
+import { promptMenu } from './mainMenu.js';
 
 figlet('JOT - ME ✏️', async (err, data) => {
   // Dynamic import of gradient-string
@@ -15,10 +16,14 @@ figlet('JOT - ME ✏️', async (err, data) => {
   }
 
   console.log(gradient.default.pastel.multiline(data)); // Use gradient.default due to dynamic import
-
+  if (process.argv.length === 2) {
+    promptMenu();
+    return;
+  }
   yargs(hideBin(process.argv))
     .scriptName('jotme')
     .usage('$0 <cmd> [args]')
+
     .command(
       'add',
       'Add a note or task',
@@ -48,3 +53,4 @@ figlet('JOT - ME ✏️', async (err, data) => {
     // Show help if no command is provided
     .help().argv;
 });
+
