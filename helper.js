@@ -2,6 +2,11 @@ import fs from 'fs';
 import { v4 as uuid4 } from 'uuid';
 import { execSync } from 'child_process';
 import chalk from 'chalk';
+import Table from 'cli-table3';
+import moment from 'moment';
+import wordwrap from 'wordwrap';
+
+
 
 const root_local_path = 'docu-local.json';
 const root_global_path = '/jotMe-records.json';
@@ -29,7 +34,7 @@ const addNote = (note) => {
     const fileData = fs.readFileSync(root_local_path, 'utf-8');
     const data = JSON.parse(fileData);
     const noteBody = {
-      note: note,
+      note: note.trim(),
       created_at: new Date(),
       id: uuid4(),
     };
@@ -48,7 +53,7 @@ const addTask = (task) => {
     const fileData = fs.readFileSync(root_local_path, 'utf-8');
     const data = JSON.parse(fileData);
     const taskBody = {
-      task: task,
+      task: task.trim(),
       created_at: new Date(),
       id: uuid4(),
     };
@@ -61,4 +66,62 @@ const addTask = (task) => {
   }
 };
 
-export { createLocalFile, addNote, addTask, commitToGit };
+const listNotes = () => {
+  try {
+    createLocalFile();
+    const fileData = fs.readFileSync(root_local_path, 'utf-8');
+    const data = JSON.parse(fileData);
+    if (data.Notes.length === 0) {
+      console.log(chalk.yellowBright("Oops! No notes available."));
+      return;
+    }
+
+    console.log(chalk.bold.underline.cyan('📜 Listing Your Notes 📜 '));
+    console.log('\n')
+
+    data.Notes.forEach((note, i) => {
+      console.log(chalk.blueBright(`(${i + 1})`) + chalk.greenBright(` ${note.note}`));
+      console.log(chalk.gray('----------------------------------------------------------------------')); // Divider line between notes
+    });
+
+  } catch (err) {
+    console.log('Error while listing notes', err);
+  }
+};
+const listTasks = () => {
+  try {
+    createLocalFile();
+    const fileData = fs.readFileSync(root_local_path, 'utf-8');
+    const data = JSON.parse(fileData);
+    if (data.Tasks.length === 0) {
+      console.log(chalk.yellowBright("Oops! No Tasks available."));
+      return;
+    }
+
+    console.log(chalk.bold.underline.cyan('📜 Listing Your Tasks 📜 '));
+    console.log('\n')
+
+    var table = new Table({
+      head: ['Task No.', 'Task', 'Created At'],
+      colWidths: [10, 80, 30],
+    },
+    );
+    const wrap = wordwrap(0, 70); // Wrap at 80 characters
+
+    const taskArray = [];
+    const taskLength= data.Tasks.length;
+    data.Tasks.forEach((task, i) => {
+      taskArray.push([taskLength-i, wrap(task.task), moment(task.created_at).format('MMM DD YYYY, h:mm:ss a')]);
+      // console.log(chalk.blueBright(`(${i + 1})`) + chalk.whiteBright(` ${task.task}`));
+      // console.log(chalk.gray('----------------------------------------------------------------------')); // Divider line between Tasks
+    });
+    taskArray.reverse()
+    table.push(...taskArray);
+    console.log(table.toString());
+
+  } catch (err) {
+    console.log('Error while listing Tasks', err);
+  }
+};
+
+export { createLocalFile, addNote, addTask, commitToGit, listNotes, listTasks };

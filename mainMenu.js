@@ -1,5 +1,5 @@
 import inquirer from "inquirer";
-import { addNote, addTask, commitToGit } from './helper.js';
+import { addNote, addTask, commitToGit, listNotes, listTasks } from './helper.js';
 
 
 const promptMenu = () => {
@@ -9,7 +9,7 @@ inquirer
       type: 'list',
       name: 'options',
       message: 'Choose an Option?',
-      choices: ['Add a Note', 'Add a Task', 'List Tasks (Current Project only)', 'List Tasks (All Projects)','Exit'],
+      choices: ['Add a Note', 'Add a Task', 'List Notes (Current Project only)', 'List Notes (All Projects)',  'List Tasks (Current Project only)', 'List Tasks (All Projects)','Exit'],
     },
   ])
   .then(answers => {
@@ -41,8 +41,14 @@ inquirer
                 addTask(taskAnswer.task);
             });
           break;
+        case 'List Notes (Current Project only)':
+            listNotes();
+          break;
+        case 'List Notes (All Projects)':
+          console.log('Listing notes for all projects...');
+          break;
         case 'List Tasks (Current Project only)':
-          console.log('Listing tasks for the current project...');
+            listTasks();
           break;
         case 'List Tasks (All Projects)':
           console.log('Listing tasks for all projects...');
@@ -53,7 +59,6 @@ inquirer
         default:
           console.log('Invalid Option');
       }
-      console.info('Answer:', answers.options);
   
   });
 }
