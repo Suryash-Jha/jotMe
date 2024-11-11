@@ -5,18 +5,49 @@ import chalk from 'chalk';
 import Table from 'cli-table3';
 import moment from 'moment';
 import wordwrap from 'wordwrap';
+import os from 'os';
+import path from 'path';
 
 
-
+const __filename = new URL(import.meta.url).pathname;
+const __dirname = path.dirname(__filename);
+const homeDir = os.homedir();
 const root_local_path = 'docu-local.json';
-const root_global_path = '/jotMe-records.json';
+const root_global_path = `${homeDir}/jotMe-records.json`;
+const currentWorkingDir = process.cwd();
+const docuFilePath = path.join(currentWorkingDir, root_local_path);
 
+const createGlobalFile = () => {
+
+  if (!fs.existsSync(root_global_path)) {
+    const data = { Paths: [], Config: [] };
+    fs.writeFileSync(root_global_path, JSON.stringify(data, null, 2), 'utf-8');
+  }
+};
 const createLocalFile = () => {
+
 
   if (!fs.existsSync(root_local_path)) {
     const data = { Notes: [], Tasks: [] };
     fs.writeFileSync(root_local_path, JSON.stringify(data, null, 2), 'utf-8');
+    console.log(chalk.redBright('JotMe Initialization done!'));
+
   }
+
+  if (fs.existsSync(root_global_path)) {
+    const fileData = fs.readFileSync(root_global_path, 'utf-8');
+    const data = JSON.parse(fileData);
+    if (!data.Paths.includes(docuFilePath)) {
+      data.Paths.push(docuFilePath); 
+
+      fs.writeFileSync(root_global_path, JSON.stringify(data, null, 2), 'utf-8');
+    }
+  } else {
+    console.error(`Global file does not exist at: ${root_global_path}`);
+  }
+
+
+
 };
 
 const commitToGit = (task) => {
@@ -31,6 +62,7 @@ const commitToGit = (task) => {
 
 const addNote = (note) => {
   try {
+   
     createLocalFile();
     const fileData = fs.readFileSync(root_local_path, 'utf-8');
     const data = JSON.parse(fileData);
@@ -58,8 +90,8 @@ const addTask = (task) => {
       created_at: new Date(),
       id: uuid4(),
     };
-    if(fs.existsSync('.git'))
-    commitToGit(task);
+    if (fs.existsSync('.git'))
+      commitToGit(task);
     data.Tasks.push(taskBody);
     fs.writeFileSync(root_local_path, JSON.stringify(data, null, 2), 'utf-8');
     console.log(chalk.yellow("Task Inserted Successfully!"));
@@ -112,9 +144,9 @@ const listTasks = () => {
     const wrap = wordwrap(0, 70); // Wrap at 80 characters
 
     const taskArray = [];
-    const taskLength= data.Tasks.length;
+    const taskLength = data.Tasks.length;
     data.Tasks.forEach((task, i) => {
-      taskArray.push([taskLength-i, wrap(task.task), moment(task.created_at).format('MMM DD YYYY, h:mm:ss a')]);
+      taskArray.push([taskLength - i, wrap(task.task), moment(task.created_at).format('MMM DD YYYY, h:mm:ss a')]);
       // console.log(chalk.blueBright(`(${i + 1})`) + chalk.whiteBright(` ${task.task}`));
       // console.log(chalk.gray('----------------------------------------------------------------------')); // Divider line between Tasks
     });
@@ -126,5 +158,6 @@ const listTasks = () => {
     console.log('Error while listing Tasks', err);
   }
 };
-createLocalFile()
+// createLocalFile()
+createGlobalFile()
 export { createLocalFile, addNote, addTask, commitToGit, listNotes, listTasks };

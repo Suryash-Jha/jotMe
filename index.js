@@ -9,7 +9,6 @@ import { promptMenu } from './mainMenu.js';
 figlet('JOT - ME ✏️', async (err, data) => {
   // Dynamic import of gradient-string
   const gradient = await import('gradient-string');
-
   if (err) {
     console.error('Error generating ASCII art');
     return;
