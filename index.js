@@ -3,7 +3,7 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import figlet from 'figlet';
-import { addNote, addTask, commitToGit, listNotes, listTasks } from './helper.js';
+import { addNote, addTask, listNotes, listTasks } from './helper.js';
 import { promptMenu } from './mainMenu.js';
 
 figlet('JOT - ME ✏️', async (err, data) => {
@@ -45,7 +45,6 @@ figlet('JOT - ME ✏️', async (err, data) => {
           addNote(argv.n);
         }
         if (argv.t) {
-          commitToGit(argv.t);
           addTask(argv.t);
         }
       }

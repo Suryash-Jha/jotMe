@@ -1,5 +1,5 @@
 import inquirer from "inquirer";
-import { addNote, addTask, commitToGit, listNotes, listTasks } from './helper.js';
+import { addNote, addTask, listNotes, listTasks } from './helper.js';
 
 
 const promptMenu = () => {
@@ -37,7 +37,6 @@ inquirer
               },
             ])
             .then(taskAnswer => {
-                commitToGit(taskAnswer.task);
                 addTask(taskAnswer.task);
             });
           break;

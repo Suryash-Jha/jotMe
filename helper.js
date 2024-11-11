@@ -12,6 +12,7 @@ const root_local_path = 'docu-local.json';
 const root_global_path = '/jotMe-records.json';
 
 const createLocalFile = () => {
+
   if (!fs.existsSync(root_local_path)) {
     const data = { Notes: [], Tasks: [] };
     fs.writeFileSync(root_local_path, JSON.stringify(data, null, 2), 'utf-8');
@@ -57,6 +58,8 @@ const addTask = (task) => {
       created_at: new Date(),
       id: uuid4(),
     };
+    if(fs.existsSync('.git'))
+    commitToGit(task);
     data.Tasks.push(taskBody);
     fs.writeFileSync(root_local_path, JSON.stringify(data, null, 2), 'utf-8');
     console.log(chalk.yellow("Task Inserted Successfully!"));
@@ -123,5 +126,5 @@ const listTasks = () => {
     console.log('Error while listing Tasks', err);
   }
 };
-
+createLocalFile()
 export { createLocalFile, addNote, addTask, commitToGit, listNotes, listTasks };
