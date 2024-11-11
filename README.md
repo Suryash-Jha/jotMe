@@ -51,6 +51,11 @@ jotme add -n "This is a note for my project."
 ```bash
 jotme add -t "This is a task for my project."
 ```
+### Search Text in notes(For all projects in the system):
+
+```bash
+jotme find <search-text>
+```
 ### List all Notes (Only for current Project):
 
 ```bash
@@ -61,6 +66,17 @@ jotme list -n
 ```bash
 jotme list -t
 ```
+### List all Notes (For all projects in the system):
+
+```bash
+jotme listall -n
+```
+### List all Tasks (For all projects in the system):
+
+```bash
+jotme listall -t
+```
+
 
 <!-- ## Contributing
 
