@@ -1,5 +1,5 @@
 # Jotme
-![jotMe Logo](./assets/jotme_home.png)
+![jotMe Logo](https://i.ibb.co/kqW7cc2/jotme.png)
 
 **JotMe** is a powerful and easy-to-use command-line tool designed to help you manage your notes and tasks for projects. 
 
@@ -17,6 +17,10 @@ It allows you to store and manage notes at the project level, making it easy to 
 - **Git Integration**: If your project has a Git repository, jotMe can automatically commit tasks and notes to your repo, making it easy to keep everything version-controlled.
   
 - **Color-Themed UI**: The tool is designed with a beautiful and engaging color theme for a more attractive and user-friendly experience in the terminal.
+
+- **Search in Notes**: Easily search for specific keywords or phrases within your notes. The search feature can be applied to both project-level and global notes.
+
+- **Global Notes and Tasks Fetching**: Fetch notes and tasks globally across all projects. This feature allows users to track tasks and notes from different projects in one place, making it easier to monitor overall progress.
 
 ---
 

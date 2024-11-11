@@ -3,7 +3,7 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import figlet from 'figlet';
-import { addNote, addTask, listNotes, listTasks, searchByString } from './helper.js';
+import { addNote, addTask, listNotes, listTasks, searchByString, listAllNotes, listAllTasks } from './helper.js';
 import { promptMenu } from './mainMenu.js';
 
 figlet('JOT - ME ✏️', async (err, data) => {
@@ -70,6 +70,32 @@ figlet('JOT - ME ✏️', async (err, data) => {
         }
         if (argv.t) {
           listTasks();
+
+        }
+      }
+    )
+    .command(
+      'listall',
+      'Lists All notes or tasks',
+      (yargs) => {
+        yargs
+          .option('n', {
+            alias: 'note',
+            type: 'boolean',
+            description: 'List all notes',
+          })
+          .option('t', {
+            alias: 'task',
+            type: 'boolean',
+            description: 'List all tasks',
+          });
+      },
+      (argv) => {
+        if (argv.n) {
+          listAllNotes()
+        }
+        if (argv.t) {
+          listAllTasks();
 
         }
       }
