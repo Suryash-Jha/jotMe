@@ -1,5 +1,5 @@
 import inquirer from "inquirer";
-import { addNote, addTask, listNotes, listTasks, listAllNotes, listAllTasks } from './helper.js';
+import { addNote, addTask, listNotes, listTasks, listAllNotes, listAllTasks, searchByString } from './helper.js';
 
 
 const promptMenu = () => {
@@ -9,7 +9,8 @@ inquirer
       type: 'list',
       name: 'options',
       message: 'Choose an Option?',
-      choices: ['Add a Note', 'Add a Task', 'List Notes (Current Project only)', 'List Notes (All Projects)',  'List Tasks (Current Project only)', 'List Tasks (All Projects)','Exit'],
+      pageSize: 10,
+      choices: ['Add a Note', 'Add a Task', 'Search By String', 'List Notes (Current Project only)', 'List Notes (All Projects)',  'List Tasks (Current Project only)', 'List Tasks (All Projects)', 'Exit'],
     },
   ])
   .then(answers => {
@@ -51,7 +52,19 @@ inquirer
           break;
         case 'List Tasks (All Projects)':
           listAllTasks();
-
+          break;
+        case 'Search By String':
+            inquirer
+            .prompt([
+              {
+                type: 'input',
+                name: 'searchText',
+                message: 'Enter your search text:',
+              },
+            ])
+            .then(searchText => {
+                searchByString(searchText.searchText);
+            });
           break;
         case 'Exit':
           console.log('Exiting...');

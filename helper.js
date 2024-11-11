@@ -33,23 +33,26 @@ const createLocalFile = () => {
     console.log(chalk.redBright('JotMe Initialization done!'));
 
   }
+  if (!fs.existsSync(root_global_path)) {
+    createGlobalFile();
+  }
 
   if (fs.existsSync(root_global_path)) {
     const fileData = fs.readFileSync(root_global_path, 'utf-8');
     const data = JSON.parse(fileData);
     if (!data.Paths.includes(docuFilePath)) {
-      data.Paths.push(docuFilePath); 
+      data.Paths.push(docuFilePath);
 
       fs.writeFileSync(root_global_path, JSON.stringify(data, null, 2), 'utf-8');
     }
   } else {
+
     console.error(`Global file does not exist at: ${root_global_path}`);
   }
 
 
 
 };
-
 const commitToGit = (task) => {
   try {
     execSync(`git add .`, { stdio: 'inherit' });
@@ -59,10 +62,9 @@ const commitToGit = (task) => {
     return;
   }
 };
-
 const addNote = (note) => {
   try {
-   
+
     createLocalFile();
     const fileData = fs.readFileSync(root_local_path, 'utf-8');
     const data = JSON.parse(fileData);
@@ -79,7 +81,6 @@ const addNote = (note) => {
     console.log('Error while adding note', err);
   }
 };
-
 const addTask = (task) => {
   try {
     createLocalFile();
@@ -100,7 +101,6 @@ const addTask = (task) => {
     console.log('Error while adding task', err);
   }
 };
-
 const listNotes = () => {
   try {
     createLocalFile();
@@ -123,32 +123,31 @@ const listNotes = () => {
     console.log('Error while listing notes', err);
   }
 };
-
-const loadAllNotes = () => {  
+const loadAllNotes = () => {
   const globalFileData = fs.readFileSync(root_global_path, 'utf-8');
   const globalData = JSON.parse(globalFileData);
   const allNotes = [];
   globalData.Paths.forEach((path) => {
     const fileData = fs.readFileSync
-    (path, 'utf-8');
+      (path, 'utf-8');
     const data = JSON.parse(fileData);
     data.Notes.forEach((note) => {
       allNotes.push(note.note);
-  })
+    })
   })
   return allNotes
 }
-const loadAllTasks = () => {  
+const loadAllTasks = () => {
   const globalFileData = fs.readFileSync(root_global_path, 'utf-8');
   const globalData = JSON.parse(globalFileData);
   const allTasks = [];
   globalData.Paths.forEach((path) => {
     const fileData = fs.readFileSync
-    (path, 'utf-8');
+      (path, 'utf-8');
     const data = JSON.parse(fileData);
     data.Tasks.forEach((task) => {
       allTasks.push(task);
-  })
+    })
   })
   return allTasks
 }
@@ -174,7 +173,7 @@ const listAllTasks = () => {
 
     const taskArray = [];
     const taskLength = allTasks.length;
-    allTasks && allTasks.length >0 && allTasks.forEach((task, i) => {
+    allTasks && allTasks.length > 0 && allTasks.forEach((task, i) => {
       taskArray.push([taskLength - i, wrap(task?.task), moment(task?.created_at).format('MMM DD YYYY, h:mm:ss a')]);
       // console.log(chalk.blueBright(`(${i + 1})`) + chalk.whiteBright(` ${task.task}`));
       // console.log(chalk.gray('----------------------------------------------------------------------')); // Divider line between Tasks
@@ -209,8 +208,6 @@ const listAllNotes = () => {
     console.log('Error while listing notes', err);
   }
 };
-
-
 const listTasks = () => {
   try {
     createLocalFile();
@@ -246,6 +243,38 @@ const listTasks = () => {
     console.log('Error while listing Tasks', err);
   }
 };
+const searchByString = (searchString) => {
+  const allNotes = loadAllNotes();
+  const filteredNotes = allNotes.filter((note) => note.includes(searchString));
+  if(filteredNotes.length === 0){
+    console.log(chalk.yellowBright("No notes found with the search string"));
+    return;
+  }
+
+  console.log('\n')
+  console.log(chalk.bold.underline.cyan('📜 Found searched text in these notes: 📜 '));
+  console.log('\n')
+
+  filteredNotes.forEach((note, i) => {
+    const parts = note.split(searchString);
+    const highlightedNote = parts.join(chalk.bgRedBright(searchString));
+    // readonly blackBright: this;
+    // readonly redBright: this;
+    // readonly greenBright: this;
+    // readonly yellowBright: this;
+    // readonly blueBright: this;
+    // readonly magentaBright: this;
+    // readonly cyanBright: this;
+    // readonly whiteBright: this;
+    console.log(chalk.blueBright(`(${i + 1})`) + chalk.green(` ${highlightedNote}`));
+    // console.log(chalk.blueBright(`(${i + 1})`) + chalk.greenBright(` ${note}`));
+    console.log(chalk.gray('----------------------------------------------------------------------')); 
+  }
+  );
+
+  // return { filteredNotes };
+};
+
 // createLocalFile()
-createGlobalFile()
-export { createLocalFile, addNote, addTask, commitToGit, listNotes, listTasks, listAllNotes, listAllTasks };
+// createGlobalFile()
+export { createLocalFile, addNote, addTask, commitToGit, listNotes, listTasks, listAllNotes, listAllTasks, searchByString };

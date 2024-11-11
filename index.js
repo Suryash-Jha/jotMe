@@ -3,7 +3,7 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import figlet from 'figlet';
-import { addNote, addTask, listNotes, listTasks } from './helper.js';
+import { addNote, addTask, listNotes, listTasks, searchByString } from './helper.js';
 import { promptMenu } from './mainMenu.js';
 
 figlet('JOT - ME ✏️', async (err, data) => {
@@ -74,7 +74,26 @@ figlet('JOT - ME ✏️', async (err, data) => {
         }
       }
     )
-    // Show help if no command is provided
+      .command(
+        'find <text>',
+        'Find notes containing specified text',
+        (yargs) => {
+          yargs
+            .positional('text', {
+              describe: 'Text to search for in notes',
+              type: 'string',
+            });
+        },
+        (argv) => {
+          const searchText = argv.text;
+          if (!searchText) {
+            console.log('Please provide text to search for.');
+            return;
+          }
+      
+          searchByString(searchText);
+        }
+      )
     .help().argv;
 });
 
