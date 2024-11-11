@@ -1,5 +1,5 @@
 import inquirer from "inquirer";
-import { addNote, addTask, listNotes, listTasks } from './helper.js';
+import { addNote, addTask, listNotes, listTasks, listAllNotes, listAllTasks } from './helper.js';
 
 
 const promptMenu = () => {
@@ -44,13 +44,14 @@ inquirer
             listNotes();
           break;
         case 'List Notes (All Projects)':
-          console.log('Listing notes for all projects...');
+          listAllNotes();
           break;
         case 'List Tasks (Current Project only)':
             listTasks();
           break;
         case 'List Tasks (All Projects)':
-          console.log('Listing tasks for all projects...');
+          listAllTasks();
+
           break;
         case 'Exit':
           console.log('Exiting...');

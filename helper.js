@@ -123,6 +123,94 @@ const listNotes = () => {
     console.log('Error while listing notes', err);
   }
 };
+
+const loadAllNotes = () => {  
+  const globalFileData = fs.readFileSync(root_global_path, 'utf-8');
+  const globalData = JSON.parse(globalFileData);
+  const allNotes = [];
+  globalData.Paths.forEach((path) => {
+    const fileData = fs.readFileSync
+    (path, 'utf-8');
+    const data = JSON.parse(fileData);
+    data.Notes.forEach((note) => {
+      allNotes.push(note.note);
+  })
+  })
+  return allNotes
+}
+const loadAllTasks = () => {  
+  const globalFileData = fs.readFileSync(root_global_path, 'utf-8');
+  const globalData = JSON.parse(globalFileData);
+  const allTasks = [];
+  globalData.Paths.forEach((path) => {
+    const fileData = fs.readFileSync
+    (path, 'utf-8');
+    const data = JSON.parse(fileData);
+    data.Tasks.forEach((task) => {
+      allTasks.push(task);
+  })
+  })
+  return allTasks
+}
+const listAllTasks = () => {
+  try {
+    createLocalFile();
+    const allTasks = loadAllTasks()
+
+    if (allTasks.length === 0) {
+      console.log(chalk.yellowBright("Oops! No Tasks available."));
+      return;
+    }
+
+    console.log(chalk.bold.underline.cyan('📜 Listing All Tasks 📜 '));
+    console.log('\n')
+
+    var table = new Table({
+      head: ['Task No.', 'Task', 'Created At'],
+      colWidths: [10, 80, 30],
+    },
+    );
+    const wrap = wordwrap(0, 70); // Wrap at 80 characters
+
+    const taskArray = [];
+    const taskLength = allTasks.length;
+    allTasks && allTasks.length >0 && allTasks.forEach((task, i) => {
+      taskArray.push([taskLength - i, wrap(task?.task), moment(task?.created_at).format('MMM DD YYYY, h:mm:ss a')]);
+      // console.log(chalk.blueBright(`(${i + 1})`) + chalk.whiteBright(` ${task.task}`));
+      // console.log(chalk.gray('----------------------------------------------------------------------')); // Divider line between Tasks
+    });
+    taskArray.reverse()
+    table.push(...taskArray);
+    console.log(table.toString());
+
+  } catch (err) {
+    console.log('Error while listing Tasks', err);
+  }
+};
+const listAllNotes = () => {
+  try {
+    createLocalFile();
+    const allNotes = loadAllNotes()
+    console.log(chalk.bold.underline.cyan('📜 Listing All Notes 📜 '));
+    console.log('\n')
+
+    if (allNotes.length === 0) {
+      console.log(chalk.yellowBright("Oops! No notes available."));
+      return;
+    }
+
+
+    allNotes.forEach((note, i) => {
+      console.log(chalk.blueBright(`(${i + 1})`) + chalk.greenBright(` ${note}`));
+      console.log(chalk.gray('----------------------------------------------------------------------')); // Divider line between notes
+    });
+
+  } catch (err) {
+    console.log('Error while listing notes', err);
+  }
+};
+
+
 const listTasks = () => {
   try {
     createLocalFile();
@@ -160,4 +248,4 @@ const listTasks = () => {
 };
 // createLocalFile()
 createGlobalFile()
-export { createLocalFile, addNote, addTask, commitToGit, listNotes, listTasks };
+export { createLocalFile, addNote, addTask, commitToGit, listNotes, listTasks, listAllNotes, listAllTasks };
